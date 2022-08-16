@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Timed Coding Quiz</title>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+      <header>
+        <div class = high-scores>
+        <p>View High Scores</p>
+        </div>
+        <div class = "interactive">
+        <p id = "timer">Timer:</p>
+        <p id = "score">Score:</p>
+        </div>
+      </header>
+       <form id = "task form">
+        <div class="quiz">
+            <h1>Welcome to my Coding Timed Quiz!</h1>
+            <p>Your score will be determined by as follows:
+                <ul>
+                    <li>For each correct answer, you get one point multiplied by [99 / (time spent on question)].</li>
+                    <li>For each incorrect answer, you get 1/4th of your remaining time taken off the timer, and no points.</li>
+                    <li>You will have a total of 99 seconds to take the quiz.</li>
+                </ul>
+            </p>
+            <p>Have fun!</p>
+            <button class = "btn" id = "new task" type = "submit">Start Quiz!</button>
+        </div>
+       </form>
+      </div>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
