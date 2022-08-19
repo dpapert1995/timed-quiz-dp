@@ -13,7 +13,7 @@ var questions = [
     },
     {
         question: "An external Javascript file must contain the <script> tag.",
-        choices: ["True, False"],
+        choices: ["True", "False"],
         answer: "False"
     },
     {
