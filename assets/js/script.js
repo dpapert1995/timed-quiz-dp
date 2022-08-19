@@ -19,6 +19,11 @@ var quizE1 = document.querySelector("#quiz");
 var questionTitleE1 = document.querySelector("#question-title");
 var choicesE1 = document.querySelector("#choices");
 var feedbackE1 = document.querySelector("#feedback");
+var submission = document.querySelector("#submit-score")
+var endMess = document.querySelector("#finish-message");
+var initialBox = document.querySelector("#initial-box");
+var initialMess = document.querySelector("#initial-message");
+var endOptions = document.querySelector("#end-options");
 
 var quizLength = 5;
 var totalQuestions = questions.length + 1;
@@ -74,6 +79,8 @@ function displayQuestion() {
 
 function optionClick() {
     endTime = timer;
+    console.log(startTime);
+    console.log(endTime);
     if (this.value != currentQuestion.answer) {
         timer = timer - Math.floor(timer/4);
         timeDisplay.textContent = timer;
@@ -87,6 +94,7 @@ function optionClick() {
     scoreDisplay.textContent = score;
 
     quizIndex++;
+    startTime = endTime;
 
     if (quizIndex === quizQuestions.length) {
         quizEnd();
@@ -96,14 +104,42 @@ function optionClick() {
     }
 }
 
-  //Function to update score, accepts start and end time
+// Function to update score, accepts start and end time
 function scoreUpdate (startTime, endTime) {
-    score = score + 100/(startTime - endTime);
+    if (startTime - endTime == 0){
+        score = score + 100;
+    }
+    else {
+        score = score + Math.floor(100/(startTime - endTime));
+    }
+    return score;
     }
 
-function endQuiz () {
+// End Quiz, takes users to end screen.
+function quizEnd () {
     clearInterval(timeInt);
-    document.getElementById("intro").innerHTML = "";
+    document.getElementById("quiz").innerHTML = "";
+    endMess.textContent = "All done! Your score is " + score + ". Do you want to submit you score to the high score list?"
+    initialMess.textContent = "Enter initials (max 3 letters). Blank submissions will be shown as '...'"
+    var initialSubmit = document.createElement("input");
+        initialSubmit.setAttribute("id", "initials");
+        initialSubmit.setAttribute("class", "txtbox");
+        initialSubmit.setAttribute("type", "text");
+        initialSubmit.setAttribute("maxlength", "3");
+        initialBox.appendChild(initialSubmit);
+    var scoreSubmit = document.createElement("button");
+        scoreSubmit.setAttribute("id", "score-submit");
+        scoreSubmit.setAttribute("class", "btn");
+        scoreSubmit.setAttribute("type", "button");
+        scoreSubmit.textContent = "Submit";
+        endOptions.appendChild(scoreSubmit);
+    var newQuiz = document.createElement("button");
+        newQuiz.setAttribute("id", "new-quiz");
+        newQuiz.setAttribute("class", "btn");
+        newQuiz.textContent = "New Quiz";
+        endOptions.appendChild(newQuiz);
+
 }
+
 
 startButton.onclick = startQuiz;
