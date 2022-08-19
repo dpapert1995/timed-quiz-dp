@@ -18,6 +18,7 @@ var introE1 = document.querySelector("#intro");
 var quizE1 = document.querySelector("#quiz");
 var questionTitleE1 = document.querySelector("#question-title");
 var choicesE1 = document.querySelector("#choices");
+var feedbackE1 = document.querySelector("#feedback");
 
 var quizLength = 5;
 var totalQuestions = questions.length + 1;
@@ -56,26 +57,53 @@ function tick() {
 
 function displayQuestion() {
     currentQuestion = quizQuestions[quizIndex];
-    console.log(currentQuestion);
     choicesE1.innerHTML = "";
     questionTitleE1.textContent = currentQuestion.question;
 
     currentQuestion.choices.forEach(function(choice, i) {
-        // create new button for each choice
+        // Creates button for each choice
         var option = document.createElement("button");
         option.setAttribute("class", "question-btn");
         option.setAttribute("value", choice);
         option.textContent = choice;
-
-    
-        // display on the page
+        // Display options
         choicesE1.appendChild(option);
+        option.onclick = optionClick;
       });
+    }
+
+function optionClick() {
+    endTime = timer;
+    if (this.value != currentQuestion.answer) {
+        timer = timer - Math.floor(timer/4);
+        timeDisplay.textContent = timer;
+        feedbackE1.textContent = "Incorrect!";
+    }
+    else {
+        feedbackE1.textContent = "Correct!";
+        score = scoreUpdate(startTime, endTime);
+        console.log(score);
+    }
+    scoreDisplay.textContent = score;
+
+    quizIndex++;
+
+    if (quizIndex === quizQuestions.length) {
+        quizEnd();
+    }
+    else {
+        displayQuestion();
+    }
 }
 
   //Function to update score, accepts start and end time
 function scoreUpdate (startTime, endTime) {
     score = score + 100/(startTime - endTime);
+    }
+
+function endQuiz () {
+    clearInterval(timeInt);
+    document.getElementById("intro").innerHTML = "";
 }
 
 startButton.onclick = startQuiz;
