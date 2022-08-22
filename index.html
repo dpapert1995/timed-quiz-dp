@@ -1,3 +1,4 @@
+<!--MAIN PAGE FOR TIMED QUIZ.-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,30 +9,64 @@
     <link rel="stylesheet" href="./assets/css/styles.css" />
   </head>
   <body>
+      <!--Begin header content. Changed with javascript.-->
       <header>
         <div class = high-scores>
-        <p>View High Scores</p>
+        <a href = "high-scores.html">View High Scores</a>
         </div>
         <div class = "interactive">
-        <p id = "timer">Timer:</p>
-        <p id = "score">Score:</p>
+        <p>Timer: </p> <span id = "timer">99</span>
+        <p>Score: </p> <span id = "score">0</span>
         </div>
       </header>
-       <form id = "task form">
-        <div class="quiz">
+      <!--Begin quiz content. Changed with javascript.-->
+       <section id = quiz-content>
+        <!--Start page content for quiz.-->
+          <div id = "intro">
+            <div>
             <h1>Welcome to my Coding Timed Quiz!</h1>
+            </div>
             <p>Your score will be determined by as follows:
-                <ul>
-                    <li>For each correct answer, you get one point multiplied by [99 / (time spent on question)].</li>
+                <ol>
+                    <li>For each correct answer, you get one point multiplied by [100 / (time spent on question)].</li>
                     <li>For each incorrect answer, you get 1/4th of your remaining time taken off the timer, and no points.</li>
-                    <li>You will have a total of 99 seconds to take the quiz.</li>
-                </ul>
+                    <li>You will have a total of 99 seconds to take the quiz There are five questions total.</li>
+                </ol>
             </p>
             <p>Have fun!</p>
-            <button class = "btn" id = "new task" type = "submit">Start Quiz!</button>
+            <button class = "btn" id = "start-quiz" type = "submit">Start Quiz!</button>
+          </div>
+        <!--Quiz section placeholders. Created with javascript functions when quiz is running.-->
+        <div id = "quiz">
+          <h1 id = "question-title"></h1>
+          <ol id = "choices"></ol>
+          <p id = "feedback"></p>
         </div>
-       </form>
-      </div>
+        <div id = "submit-score">
+          <div>
+            <h1 id = "finish-message"></h1>
+          </div>
+          <!--Div with class hide to initially hide this section. Is shown when quiz is finished.-->
+          <!--Some elements are seperated by divs to prevent in-line blocking.-->
+          <!--Elements not created with javascript are attached to an important Event Listener that do not work as well within specific functions.-->
+          <div id = "initial-box" class = "hide">
+            <div>
+           <!--Placeholder for entry message, which is generated with Javascript.-->
+              <p id = "initial-message"></p>
+           </div>
+          <div>
+            <!--Input for high score initials, hidden until quiz has ended.-->
+            <input maxlength="3" id="initial-entry" class = "txtbox"></input>
+          </div>
+        </div>
+        <!--Options at end of quiz.-->
+        <div id = "end-options" class = "hide">
+          <!--Score submission button, initially hidden.-->
+          <button id="submit-button" type="submit" class = "btn">Submit & View High Scores</button>
+        </div>
+      </section>
+    <script src="./assets/js/questions.js"></script>
     <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/scores.js"></script>
   </body>
 </html>

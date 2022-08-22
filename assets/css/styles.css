@@ -1,3 +1,5 @@
+/* BEGIN GENERAL STYLES */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -14,7 +16,9 @@
    body {
     background-color: var(--primary);
    }
+/* END GENERAL STYLES */
 
+/* BEGIN HEADER STYLES */
    header {
     background-color: var(--secondary);
     display: flex;
@@ -25,24 +29,28 @@
     font-weight: bold;
    }
 
-   .high-scores {
-    justify-content:flex-start;
-    color: var(--tertiary);
-    margin: 10px;
-   }
-
-   .interactive {
-    display: flex;
+   header a {
     justify-content: flex-end;
     color: var(--tertiary);
     margin: 10px;
    }
 
-   .interactive p{
-    margin: 0 20px;
+   .interactive {
+    justify-content: flex-end;
+    display: inline-flex;
+    flex-wrap: wrap;
+    color: var(--tertiary);
+    margin: 10px;
    }
 
-   form {
+   .interactive p{
+    margin: 0 10px;
+   }
+
+   /* END HEADER STYLES */
+
+   /* BEGIN MAIN CONTENT STYLES */
+  section {
     display: flex;
     justify-content: center;
     align-content: center;
@@ -53,13 +61,13 @@
     text-align: center;
    }
 
-   form p{
+   section p{
     margin: 10px;
     font-size: 20px;
     font-weight: bold;
    }
 
-   form ul li{
+   section ol li{
     margin: 10px;
     font-size: 20px;
     font-weight: bold;
@@ -67,7 +75,7 @@
    }
 
    .btn {
-    border-color: var(--tertiary-color);
+    border-color: var(--tertiary);
     display: inline-block;
     padding: 10px 15px;
     background: var(--secondary);
@@ -80,3 +88,35 @@
     margin: 10px;
    }
  
+   .question-btn {
+    border-color: var(--tertiary);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+    background: var(--secondary);
+    color: var(--tertiary);
+    font-size: 20px;
+    border-radius: 12px;
+    position: relative;
+    top: -3px;
+    box-shadow: 0 3px var(--grey);
+    margin: 10px;
+   }
+
+   .txtbox {
+    border-radius: 6px;
+    border-color: var(--tertiary);
+    padding: 10px;
+   }
+   /* END MAIN CONTENT STYLES */
+
+   /* BEGIN JAVASCRIPT SPECIFIC STYLES */
+   .hide {
+    display: none;  
+   }
+
+  .show {
+    display: block;
+   }
+
+   /* END JAVASCRIPT SPECIFIC STYLES */

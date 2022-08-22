@@ -1,6 +1,6 @@
-// Main Quiz Script
+// MAN QUIZ SCRIPT
 
-// Time, Score, and Quiz Index Variables
+// Time, score, and quiz index variables.
 var score = 0; 
 var timer = 99;
 var startTime = 99;
@@ -9,31 +9,34 @@ var timeInt;
 var quizQuestions;
 var quizIndex;
 var currentQuestion;
-
-var startButton = document.querySelector("#start-quiz");
-var timeDisplay = document.querySelector("#timer");
-var scoreDisplay = document.querySelector("#score");
-var formE1 = document.querySelector("#form");
-var introE1 = document.querySelector("#intro");
-var quizE1 = document.querySelector("#quiz");
-var questionTitleE1 = document.querySelector("#question-title");
-var choicesE1 = document.querySelector("#choices");
-var feedbackE1 = document.querySelector("#feedback");
-var submission = document.querySelector("#submit-score")
-var endMess = document.querySelector("#finish-message");
-var initialBox = document.querySelector("#initial-box");
-var initialMess = document.querySelector("#initial-message");
-var endOptions = document.querySelector("#end-options");
-
 var quizLength = 5;
 var totalQuestions = questions.length + 1;
 
+// DOM variables.
+var startButton = document.querySelector("#start-quiz");
+var timeDisplay = document.querySelector("#timer");
+var scoreDisplay = document.querySelector("#score");
+var quizContent = document.querySelector("#quiz-content");
+var introText = document.querySelector("#intro");
+var quizText = document.querySelector("#quiz");
+var questionTitleText = document.querySelector("#question-title");
+var choicesText = document.querySelector("#choices");
+var feedbackText = document.querySelector("#feedback");
+var submission = document.querySelector("#submit-button")
+var endMess = document.querySelector("#finish-message");
+var initialBox = document.querySelector("#initial-box");
+var initialMess = document.querySelector("#initial-message");
+var initialIn = document.querySelector("#initial-entry");
+var endOptions = document.querySelector("#end-options");
+var clearButton = document.querySelector("#clear-button");
+
+// Start quiz function
 function startQuiz() {
-document.getElementById("intro").innerHTML = "";
-timeInt = setInterval(tick, 1000);
-quizQuestions = getQuestions();
-quizIndex = 0;
-displayQuestion();
+    document.getElementById("intro").innerHTML = "";
+    timeInt = setInterval(tick, 1000);
+    quizQuestions = getQuestions();
+    quizIndex = 0;
+    displayQuestion();
 }
 
 // Generate an array of length quizLength, filled with random question indices from variable questions.
@@ -49,62 +52,71 @@ for (let i = 0; i < quizLength; i++) {
 return questionsAsked;
 }
 
+// Function to run timer.
 function tick() {
-    // Update
+    // Update timer.
     timer--;
     timeDisplay.textContent = timer;
   
-    // Check if time has run out
+    // Check if time has run out.
     if (timer <= 0) {
       endQuiz();
     }
   }
 
+  // Function to display quiz question. 
 function displayQuestion() {
     currentQuestion = quizQuestions[quizIndex];
-    choicesE1.innerHTML = "";
-    questionTitleE1.textContent = currentQuestion.question;
+    choicesText.innerHTML = "";
+    questionTitleText.textContent = currentQuestion.question;
 
     currentQuestion.choices.forEach(function(choice, i) {
-        // Creates button for each choice
+        // Creates button for each choice.
         var option = document.createElement("button");
         option.setAttribute("class", "question-btn");
         option.setAttribute("value", choice);
         option.textContent = choice;
-        // Display options
-        choicesE1.appendChild(option);
+        // Display options.
+        choicesText.appendChild(option);
         option.onclick = optionClick;
       });
     }
 
+// Function to progress quiz when an option is clicked
 function optionClick() {
     endTime = timer;
-    console.log(startTime);
-    console.log(endTime);
+
+    // Penalized user with time decrease and no points if answer is incorrect.
     if (this.value != currentQuestion.answer) {
         timer = timer - Math.floor(timer/4);
         timeDisplay.textContent = timer;
-        feedbackE1.textContent = "Incorrect!";
+        feedbackText.textContent = "Incorrect!";
     }
+    // Adds to and updates score when answer is correct.
     else {
-        feedbackE1.textContent = "Correct!";
+        feedbackText.textContent = "Correct!";
         score = scoreUpdate(startTime, endTime);
-        console.log(score);
     }
     scoreDisplay.textContent = score;
 
+    // Advance quiz state.
     quizIndex++;
+
+    // Reset variable for new score updates.
     startTime = endTime;
 
+    // If all five questions have been asked, end the quiz.
     if (quizIndex === quizQuestions.length) {
         quizEnd();
     }
+
+    // Otherwise display a new question.
     else {
         displayQuestion();
     }
 }
 
-// Function to update score, accepts start and end time
+// Function to update score, accepts start and end time.
 function scoreUpdate (startTime, endTime) {
     if (startTime - endTime == 0){
         score = score + 100;
@@ -115,31 +127,59 @@ function scoreUpdate (startTime, endTime) {
     return score;
     }
 
-// End Quiz, takes users to end screen.
+// Function to end quiz, updates webpage to show end page contents.
 function quizEnd () {
     clearInterval(timeInt);
     document.getElementById("quiz").innerHTML = "";
     endMess.textContent = "All done! Your score is " + score + ". Do you want to submit you score to the high score list?"
     initialMess.textContent = "Enter initials (max 3 letters). Blank submissions will be shown as '...'"
-    var initialSubmit = document.createElement("input");
-        initialSubmit.setAttribute("id", "initials");
-        initialSubmit.setAttribute("class", "txtbox");
-        initialSubmit.setAttribute("type", "text");
-        initialSubmit.setAttribute("maxlength", "3");
-        initialBox.appendChild(initialSubmit);
-    var scoreSubmit = document.createElement("button");
-        scoreSubmit.setAttribute("id", "score-submit");
-        scoreSubmit.setAttribute("class", "btn");
-        scoreSubmit.setAttribute("type", "button");
-        scoreSubmit.textContent = "Submit";
-        endOptions.appendChild(scoreSubmit);
+    initialBox.setAttribute("class", "show");
+    endOptions.setAttribute("class", "show");
     var newQuiz = document.createElement("button");
         newQuiz.setAttribute("id", "new-quiz");
         newQuiz.setAttribute("class", "btn");
         newQuiz.textContent = "New Quiz";
         endOptions.appendChild(newQuiz);
-
 }
 
+// Function for saving the user's score.
 
-startButton.onclick = startQuiz;
+function saveHighScore() {
+    // Get value of input box.
+    var player = initialIn.value;
+
+      // Gets local storage. If nothing is stored, it gets a blank array.
+      var highscores =
+        JSON.parse(window.localStorage.getItem("high-scores")) || [];
+  
+      // Formats information into new score object.
+      var newScore = {
+        score: score,
+        player: player
+      }
+  
+      // Saves new score to local storage.
+      highscores.push(newScore);
+      window.localStorage.setItem("high-scores", JSON.stringify(highscores));
+  
+      // Redirects to high score page.
+      window.location.href = "high-scores.html";
+  
+}
+
+// Function that checks for text in initial entry input box.
+function checkForText(){
+    if (document.getElementById("initial-entry").value === ''){
+        document.getElementById("submit-button").disabled = true;
+    }   
+    else {
+        document.getElementById("submit-button").disabled = false;
+    }
+}
+
+// Event Listener for the initial entry input box.
+  initialIn.addEventListener('input', checkForText);
+// When start button is clicked, run the start quiz function.
+  startButton.onclick = startQuiz;
+// When submit high score button is clicked, run the saveHighScore function.
+  submission.onclick = saveHighScore;

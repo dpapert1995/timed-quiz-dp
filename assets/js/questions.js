@@ -64,8 +64,8 @@ var questions = [
     },
 
     {
-        question: "In HTML, which attribute is used to specify that an input field must be filled out?",
-        choices: ["placeholder", "formvalidate", "required", "validate"],
-        answer: "required"
+        question: "HTML comments start with <!-- and end with -->",
+        choices: ["True", "False"],
+        answer: "True"
     }
 ]
